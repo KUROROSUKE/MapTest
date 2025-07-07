@@ -30,20 +30,24 @@
     crossorigin=""
   ></script>
 
-  <script>
-    // マップ初期化
-    const map = L.map('map', { keyboard: true }).setView([51.505, -0.09], 13);
+<script>
+  // ▼ 1. バウンディングボックス
+  const bounds = [[36.55771029169622, 136.6471705075536], [36.55146691928484, 136.64761690578962]]; // ここを好きな地域に
 
-    // タイルレイヤ
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+  // ▼ 2. マップ生成＋制限
+  const map = L.map('map', {
+    keyboard: true,
+    maxBounds: bounds,
+    maxBoundsViscosity: 1.0
+  }).fitBounds(bounds);             // ▼ 3. 最初から範囲いっぱいに表示
 
-    // マーカー
-    L.marker([51.5, -0.09])
-      .addTo(map)
-      .bindPopup('A pretty CSS popup.<br>Easily customizable.')
-      .openPopup();
-  </script>
+  // タイル
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  // デモ用マーカー
+  L.marker([35.6895, 139.6917]).addTo(map).bindPopup('新宿駅');
+</script>
 </body>
 </html>
