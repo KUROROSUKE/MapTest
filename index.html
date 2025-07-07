@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Leaflet Quick Map</title>
+  <title>Leaflet デモ</title>
 
-  <!-- Leaflet CSS -->
+  <!-- Leaflet CSS（SRI 正常） -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha512-sA+ePnxAAk1u+4TvNHYubdtufkq+5uXFXuo3x1oQdY9hmr1YzZ+Z3ODMJ3KIuX7RmSHDsZnSi5XV4pXMQDP5/A=="
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""
   />
 
@@ -23,23 +23,23 @@
 <body>
   <div id="map" tabindex="0"></div>
 
-  <!-- Leaflet JS -->
+  <!-- Leaflet JS（SRI 正常） -->
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha512-QVCDzTovpA0SmJ5HOA/td0Di9XdkN7xdpr4ya5mP6qODNDfHSMh5sKifrEen03E93jTV7yxZEOh7sLVs7e9g=="
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
 
   <script>
-    // Init map
+    // マップ初期化
     const map = L.map('map', { keyboard: true }).setView([51.505, -0.09], 13);
 
-    // Base layer
+    // タイルレイヤ
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Marker
+    // マーカー
     L.marker([51.5, -0.09])
       .addTo(map)
       .bindPopup('A pretty CSS popup.<br>Easily customizable.')
