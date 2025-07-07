@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Leaflet デモ</title>
+  <title>Leaflet デモ（特定エリア固定）</title>
 
   <!-- Leaflet CSS（SRI 正常） -->
   <link
@@ -30,24 +30,47 @@
     crossorigin=""
   ></script>
 
-<script>
-  // ▼ 1. バウンディングボックス
-  const bounds = [[36.55771029169622, 136.6471705075536], [36.55146691928484, 136.64761690578962]]; // ここを好きな地域に
+  <script>
+    // ----------------------------
+    // 1) 表示を許可するバウンディングボックス
+    //    ユーザー指定の 2 点：
+    //    - [36.55771029169622, 136.6471705075536]
+    //    - [36.55146691928484, 136.64761690578962]
+    // ----------------------------
+    const bounds = L.latLngBounds(
+      [36.55146691928484, 136.6471705075536], // 南西
+      [36.55771029169622, 136.64761690578962]  // 北東
+    );
 
-  // ▼ 2. マップ生成＋制限
-  const map = L.map('map', {
-    keyboard: true,
-    maxBounds: bounds,
-    maxBoundsViscosity: 1.0
-  }).fitBounds(bounds);             // ▼ 3. 最初から範囲いっぱいに表示
+    // ----------------------------
+    // 2) マップ生成
+    //    - maxBounds  : パン制限
+    //    - maxBoundsViscosity: 1.0 で “ピタッ” と止まる
+    // ----------------------------
+    const map = L.map('map', {
+      keyboard: true,
+      maxBounds: bounds,
+      maxBoundsViscosity: 1.0,
+      maxZoom: 19 // 細かいズームインも許可
+    });
 
-  // タイル
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
+    // 3) 指定範囲をぴったり表示 → そのズームレベルを最小ズームとして固定
+    map.fitBounds(bounds);
+    map.setMinZoom(map.getZoom());
 
-  // デモ用マーカー
-  L.marker([35.6895, 139.6917]).addTo(map).bindPopup('新宿駅');
-</script>
+    // ----------------------------
+    // 4) タイルレイヤ（リピート防止に noWrap / bounds）
+    // ----------------------------
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      noWrap: true,
+      bounds: bounds
+    }).addTo(map);
+
+    // テスト用マーカー（エリア中央）
+    L.marker([36.55458860549053, 136.6473937066716]).addTo(map)
+      .bindPopup('中心点')
+      .openPopup();
+  </script>
 </body>
 </html>
